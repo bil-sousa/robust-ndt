@@ -195,13 +195,16 @@ Several scripts in the `misc` directory can be used to reproduce the results fro
 
 If you benefit from this work, please cite on your publications using:
 ```
-@misc{modesto2025,
-      title={Towards a Robust Transport Network With Self-adaptive Network Digital Twin}, 
-      author={Cláudio Modesto and João Borges and Cleverson Nahum and Lucas Matni and Cristiano Bonato Both and Kleber Cardoso and Glauco Gonçalves and Ilan Correa and Silvia Lins and Andrey Silva and Aldebaro Klautau},
-      year={2025},
-      eprint={2507.20971},
-      archivePrefix={arXiv},
-      primaryClass={cs.NI},
-      url={https://arxiv.org/abs/2507.20971}, 
+@article{modesto2026,
+title = {Towards a robust transport network with self-adaptive network digital twin},
+journal = {Computer Networks},
+volume = {276},
+pages = {111967},
+year = {2026},
+issn = {1389-1286},
+doi = {https://doi.org/10.1016/j.comnet.2025.111967},
+url = {https://www.sciencedirect.com/science/article/pii/S1389128625009326},
+author = {Cláudio Modesto and João Borges and Cleverson Nahum and Lucas Matni and Cristiano {Bonato Both} and Kleber Cardoso and Glauco Gonçalves and Ilan Correa and Silvia Lins and Andrey Silva and Aldebaro Klautau},
+keywords = {Concept drift, Graph neural network (GNN), Lifecycle management (LCM), Twinning},
 }
 ```
