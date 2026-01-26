@@ -123,8 +123,19 @@ for index in drift_detected_top[:-1]:
 plt.axvline(x=drift_detected_top[-1]-1, color="r",
                                 linestyle="dotted", label="Concept drift detected")
 
-for i in range(len(model_updated_region_top)):
-    plt.axvspan(min(model_updated_region_top[i]), max(model_updated_region_top[i]), alpha=0.3, color="red")
+for i, _ in enumerate(model_updated_region_top):
+    if i == 1:
+        plt.axvspan(min(model_updated_region_top[i]),
+                max(model_updated_region_top[i]),
+                alpha=0.3,
+                color="red",
+                label="Model updated region")
+    else:
+        plt.axvspan(min(model_updated_region_top[i]),
+        max(model_updated_region_top[i]),
+        alpha=0.3,
+        color="red")
+
 
 for i in range(len(top_concept_drift) - 1):
     plt.axvline(x=top_concept_drift[i], color='g', linestyle='dotted')
@@ -150,8 +161,12 @@ for index in drift_detected_bottom[:-1]:
     plt.axvline(x=index-1, color="r", linestyle="dotted")
 plt.axvline(x=drift_detected_bottom[-1]-1, color="r", linestyle="dotted", label="Concept drift detected")
 
-for i in range(len(model_updated_region_bottom)):
-    plt.axvspan(min(model_updated_region_bottom[i]), max(model_updated_region_bottom[i]), alpha=0.3, color="red")
+for i, _ in enumerate(model_updated_region_bottom):
+    plt.axvspan(min(model_updated_region_bottom[i]), 
+                max(model_updated_region_bottom[i]),
+                alpha=0.3,
+                color="red",
+                label="Model updated region")
 
 for i in range(len(bottom_concept_drift) - 1):
     plt.axvline(x=bottom_concept_drift[i], color="g", linestyle="dotted")
@@ -166,4 +181,5 @@ plt.xlabel("Window index", fontsize=15)
 plt.ylabel("Average NMSE (dB)", fontsize=15)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
-plt.savefig(f"figures/multiple_plots_{args.target}_{args.t_topology}_{args.b_topology}_nmse.pdf", bbox_inches="tight")
+plt.savefig(f"figures/multiple_plots_{args.target}_{args.t_topology}_{args.b_topology}_nmse.pdf",
+                bbox_inches="tight")
