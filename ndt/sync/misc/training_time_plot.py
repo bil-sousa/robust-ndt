@@ -89,7 +89,7 @@ bars = plt.bar(labels, np.mean(random_tt, axis=0)/60,
                     yerr=np.std(crosshaul_tt, axis=0)/60, capsize=5, width=0.4, color=colors)
 plt.bar_label(bars, fmt="%0.2f", padding=3, fontweight='bold')
 
-plt.gcf().supylabel("Retraining time (minutes)", fontsize=13)
+plt.gcf().supylabel("Average retraining time (minutes)", fontsize=13)
 
 plt.savefig(f"figures/training_time_{args.target}.pdf", bbox_inches='tight')
 

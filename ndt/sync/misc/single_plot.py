@@ -29,11 +29,28 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-all_cd = [[68, 131, 194], [72, 143, 211], [72, 135, 198]]
+all_cd = [[68, 131, 194], [72, 143, 211], [72, 135, 198], [95, 203, 293]]
 nmse_w_drift = np.array([])
 
+title_name = ""
+if args.topology == "5g_crosshaul":
+    title_name = "5G-Crosshaul"
+    actual_concept_drift = all_cd[0]
+elif args.topology == "germany":
+    title_name = "Germany"
+    actual_concept_drift = all_cd[1]
+elif args.topology == "passion":
+    title_name = "PASSION"
+    actual_concept_drift = all_cd[2]
+elif args.topology == "random":
+    title_name = "Synthetic-700"
+    actual_concept_drift = all_cd[3]
+else:
+    raise ValueError("You should choose a valid topology!")
+
 # load data from all npz file
-for i in range(10):
+REALIZATIONS = 10
+for i in range(REALIZATIONS):
     with open(f"../results/{args.topology}/results_sync_{args.target}_True_r_{i}.npz", "rb") as f:
         if nmse_w_drift.size == 0:
             nmse_w_drift = np.load(f)["arr_0"]
@@ -67,18 +84,9 @@ for index in model_updated[:-1]:
 plt.scatter(model_updated[-1], avg_nmse_drift[-1], marker='x', color='red', zorder=2, s=79, label='Model updated')
 
 
-for i in range(len(all_cd[0]) - 1):
-    plt.axvline(x=all_cd[0][i], color="g", linestyle="dotted")
-plt.axvline(x=all_cd[0][-1], color="g", linestyle="dotted", label="Actual concept drift")
-
-title_name = ""
-if args.topology == "5g_crosshaul":
-    title_name = "5G-Crosshaul"
-elif args.topology == "germany":
-    title_name = "Germany"
-elif args.topology == "passion":
-    title_name = "PASSION"
-
+for i in range(len(actual_concept_drift) - 1):
+    plt.axvline(x=actual_concept_drift[i], color="g", linestyle="dotted")
+plt.axvline(x=actual_concept_drift[-1], color="g", linestyle="dotted", label="Actual concept drift")
 
 plt.legend(loc="upper left")
 plt.tight_layout()
