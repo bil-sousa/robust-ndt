@@ -4,6 +4,8 @@ Created by Cláudio Modesto
 LASSE
 """
 
+import os
+import pathlib
 from matplotlib import pyplot as plt
 import tensorflow as tf
 import numpy as np
@@ -13,13 +15,12 @@ OUTPUT_PATH_NAME = "figures"
 if not os.path.isdir(OUTPUT_PATH_NAME):
     pathlib.Path(OUTPUT_PATH_NAME).mkdir(parents=True, exist_ok=True)
 
-window_sizes = [6800, 7000, 6800]
-sub_paths = ["5g_crosshaul", "germany", "passion"]
-topologies = ["5G-Crosshaul", "Germany", "PASSION"]
+sub_paths = ["5g_crosshaul", "germany", "passion", "random"]
+topologies = ["5G-Crosshaul", "Germany", "PASSION", "Synthetic-700"]
 traffic_labels = ["Exponential", "Poisson", "Uniform", "Normal", "Congested"]
-N_OF_TOPOLOGIES = 3
+N_OF_TOPOLOGIES = 4
 N_OF_PATTERN = 4
-ROOT_DIR = "../delay_database"
+ROOT_DIR = "../../../data_management/traffic_database/delay_database"
 for i in range(1, N_OF_TOPOLOGIES+1):
     all_flow_traffic = []
     start = 0
@@ -38,7 +39,7 @@ for i in range(1, N_OF_TOPOLOGIES+1):
             ds = ds.concatenate(new_ds)
 
     number_of_drifts = []
-    for window_size in range(100, 7000, 100):
+    for window_size in range(100, 10000, 100):
         kswin = drift.KSWIN(alpha=0.001, window_size=window_size, stat_size=int(window_size/4), seed=42)
         idx_of_drifts = []
         for idx, sample in enumerate(all_flow_traffic):
@@ -46,11 +47,13 @@ for i in range(1, N_OF_TOPOLOGIES+1):
             if kswin.drift_detected:
                 idx_of_drifts.append(idx)
         number_of_drifts.append(len(idx_of_drifts))
-    plt.plot(np.arange(100, 7000, 100), number_of_drifts, linewidth=3, label=topologies[i-1])
+    plt.plot(np.arange(100, 10000, 100), number_of_drifts, linewidth=3, label=topologies[i-1])
 plt.xlabel("Window size", fontsize=15)
 plt.ylabel("# Concept drift detected", fontsize=15)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 plt.legend()
-plt.grid()
+plt.grid(False)
 plt.tight_layout()
 handles, labels = plt.gca().get_legend_handles_labels()
 by_label = dict(zip(labels, handles))
