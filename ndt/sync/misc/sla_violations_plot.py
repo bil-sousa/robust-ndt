@@ -74,13 +74,13 @@ if VALID_TOPOLOGY:
     plt.subplot(2, 1, 1)
     plt.ylabel("Accuracy (%)", fontsize=15)
     plt.title("SLA violation predictions with NDT synchronization", fontsize=17)
-    plt.plot(accuracy, label="Accuracy")
+    plt.plot(accuracy, label="Accuracy", lw=2)
     plt.scatter(cd_index[1:-1], [accuracy[acc-1] for acc in cd_index[1:-1]],
             marker='x', color='red', zorder=2, s=55,
             label="Concept drift")
     plt.scatter(new_model, [accuracy[update] for update in new_model],
             marker='x', color='black', zorder=2, s=55,
-            label="New VTwin")
+            label="Updated VTwin")
 
     plt.yticks(fontsize=14)
     plt.xticks(fontsize=14)
@@ -89,7 +89,7 @@ if VALID_TOPOLOGY:
     plt.yticks(fontsize=14)
     plt.xticks(fontsize=14)
     plt.title("SLA violation predictions without NDT synchronization", fontsize=17)
-    plt.plot((correct_pred_wo/SAMPLES) * 100, label="Accuracy", color="green")
+    plt.plot((correct_pred_wo/SAMPLES) * 100, label="Accuracy", color="green", lw=2)
     plt.xlabel("Window index", fontsize=15)
     plt.ylabel("Accuracy (%)", fontsize=15)
     plt.scatter(cd_index[1:-1], [accuracy[acc-1] for acc in cd_index[1:-1]],
