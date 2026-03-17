@@ -15,6 +15,7 @@ from std_train import get_mean_std_dict, train_and_evaluate, get_default_hyperpa
 import tensorflow as tf
 import std_delay_model
 import std_jitter_model
+import std_loss_model
 
 
 model_version = 0
@@ -169,6 +170,8 @@ def load_untrained_model(target):
         model = std_delay_model.VirtualTwin
     elif target == "jitter":
         model = std_jitter_model.VirtualTwin
+    elif target == "loss":
+        model = std_loss_model.VirtualTwin
     else:
         raise ValueError("Choose a proper QoS predictor model!")
 
@@ -184,6 +187,8 @@ def load_trained_model(training_data, model_weights_file, target):
         model = std_delay_model.VirtualTwin()
     elif target == "jitter":
         model = std_jitter_model.VirtualTwin()
+    elif target == "loss":
+        model = std_loss_model.VirtualTwin()
     else:
         raise ValueError("Choose a proper QoS predictor model!")
     model.load_weights(model_weights_file)
