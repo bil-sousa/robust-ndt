@@ -202,6 +202,44 @@ def _get_network_data(experiment_path, exp_file, target):
             )
             samples.append(sample)
 
+    elif target == "loss":
+        for i in range(filtered_flow_param.shape[0]):
+            if any(x < 0 for x in filtered_flow_param[i, :, 1]):
+                continue
+            sample = (
+                {
+                    # identifier features
+                    "flow_traffic": np.expand_dims(
+                        filtered_flow_param[i, :, 0], axis=1
+                    ),
+                    "jitter": np.expand_dims(
+                        filtered_flow_param[i, :, 2], axis=1
+                    ),
+                    "flow_packet_size": np.expand_dims(
+                        filtered_flow_param[i, :, 3], axis=1
+                    ),
+                    "flow_propag_delay": np.expand_dims(
+                        propag_delay[i, :], axis=1
+                    ),
+                    "flow_delay_budget": np.expand_dims(
+                        delay_budget[i, :], axis=1
+                    ),
+
+                    "flow_length": np.expand_dims(
+                        [len(flow) for flow in link_to_flow[i]], axis=1),
+                    # link attributes
+                    "link_capacity": np.expand_dims(
+                        capacity, axis=1
+                    ),
+                    # topology attributes
+                    "link_to_flow": np.array(link_to_flow[i]),
+                    "flow_to_link": np.array(flow_to_link[i]),
+                },
+                filtered_flow_param[i, :, 1], # per-flow jitter in ms
+            )
+            samples.append(sample)
+           
+
     else:
         raise ValueError("Choose a valid target QoS metric!")
 
@@ -224,7 +262,7 @@ def generate_tf_data(experiment_path, target):
     signature = (
         {
             "flow_traffic": tf.TensorSpec(shape=(None, 1), dtype=tf.float32),
-            "flow_loss_packet": tf.TensorSpec(shape=(None, 1), dtype=tf.float32),
+            #"flow_loss_packet": tf.TensorSpec(shape=(None, 1), dtype=tf.float32),
             "jitter": tf.TensorSpec(shape=(None, 1), dtype=tf.float32),
             "flow_packet_size": tf.TensorSpec(shape=(None, 1), dtype=tf.float32),
             "flow_propag_delay": tf.TensorSpec(shape=(None, 1), dtype=tf.float32),
